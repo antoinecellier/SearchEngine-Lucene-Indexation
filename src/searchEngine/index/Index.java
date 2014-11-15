@@ -9,7 +9,6 @@ import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
-import org.apache.lucene.document.StringField;
 import org.apache.lucene.document.TextField;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
@@ -44,10 +43,9 @@ public class Index {
 	 * @param pages
 	 * @throws IOException 
 	 */
-	@SuppressWarnings("deprecation")
 	public void createIndex(ArrayList<Page> pages) throws IOException{
 		Directory dir = FSDirectory.open(new File(this.pathFolderIndex));
-		Analyzer analyzer = new StandardAnalyzer(Version.LUCENE_4_10_2);
+		Analyzer analyzer = new StandardAnalyzer();
 		IndexWriterConfig iwc = new IndexWriterConfig(Version.LUCENE_4_10_2, analyzer);
 		iwc.setOpenMode(OpenMode.CREATE);
 		IndexWriter writer = new IndexWriter(dir, iwc);
