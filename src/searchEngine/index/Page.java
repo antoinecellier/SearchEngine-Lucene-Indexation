@@ -9,7 +9,7 @@ import org.w3c.dom.Element;
 /**
  * Represent page of Wikipedia 
  * with just title, content and list of entities
- * @author amaury Lavieille - antoince Cellier
+ * @author amaury Lavieille - antoine Cellier
  *
  */
 public class Page {
