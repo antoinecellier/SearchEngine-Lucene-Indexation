@@ -1,20 +1,17 @@
-package searchEngine.clean;
-
-import searchEngine.index.Page;
+package searchEngine.index;
 
 import java.util.ArrayList;
 
-import org.xml.sax.helpers.DefaultHandler;
 import org.xml.sax.Attributes;
+import org.xml.sax.helpers.DefaultHandler;
 
 /**
- * This class is used for parse the XML dump of Wikipedia database 
- * and extract title and entities of all pages
+ * This class is the handler used by api SAX for parse clean xml file generate with class Cleaner
  * @author amaury Lavieille - antoine Cellier
  *
  */
-public class CleanerPageHandler extends DefaultHandler{
-	
+public class ParserHandler extends DefaultHandler{
+
 	/**
 	 * List of Page
 	 */
@@ -30,10 +27,11 @@ public class CleanerPageHandler extends DefaultHandler{
 	 */
 	private Page tempPage;
 	
+	
 	/**
 	 * Builder - initialize list of page and path of tag
 	 */
-	public CleanerPageHandler(){
+	public ParserHandler(){
 		this.path = new ArrayList<String>();
 		this.listPages = new ArrayList<Page>();
 	}
@@ -79,9 +77,9 @@ public class CleanerPageHandler extends DefaultHandler{
 			String content = new String(ch,start,length);
 			this.tempPage.setTitle(content);
 		}
-		if(pathToString().equals("mediawiki/page/revision/text/")) {
+		if(pathToString().equals("mediawiki/page/entities/entity/")) {
 			String content = new String(ch,start,length);
-			this.tempPage.concatContent(content);
+			this.tempPage.addEntity(content);
 		}
 	} 
 	
@@ -97,15 +95,5 @@ public class CleanerPageHandler extends DefaultHandler{
 		this.path.remove(this.path.size() - 1);
 	}
 	
-	/**
-	 * End of xml file
-	 * Extract all entities of content
-	 */
-	public void endDocument(){
-		for (Page page : this.listPages) {
-			page.extractEntities();
-		}
-	}
 	
-
 }
