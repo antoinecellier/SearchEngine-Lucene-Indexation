@@ -24,6 +24,13 @@ public class Page {
 	 */
 	private String content;
 	
+	
+	/**
+	 * Page's id
+	 */
+	private String id; 
+	
+	
 	/**
 	 * List of content's entities
 	 */
@@ -46,9 +53,10 @@ public class Page {
 	 * @param String content Page's content
 	 * @param ArrayList<String> list of entity
 	 */
-	public Page(String title, String content, ArrayList<String> entities){
+	public Page(String title, String content, String id, ArrayList<String> entities){
 		this.title = title;
 		this.content = content;
+		this.id = id;
 		this.entities = entities;
 	}
 	
@@ -58,7 +66,7 @@ public class Page {
 	 */
 	public Page clone()
 	{
-		return new Page(this.title,this.content,this.entities);
+		return new Page(this.title,this.content,this.id,this.entities);
 	}
 	
 	/**
@@ -143,6 +151,21 @@ public class Page {
 		this.entities.add(entity);
 	}
 	
+	/**
+	 * Get id
+	 * @return String
+	 */
+	public String getId(){
+		return this.id;
+	}
+	
+	/**
+	 * Set id
+	 * @return String
+	 */
+	public void setId(String id){
+		this.id = id;
+	}
 	
 	/**
 	 * Convert page to xml
@@ -153,6 +176,10 @@ public class Page {
 		Element pageElement = document.createElement("page");
 		Element title = document.createElement("title");
 		title.appendChild(document.createTextNode(this.title));
+		
+		Element id = document.createElement("id");
+		id.appendChild(document.createTextNode(this.id));
+		pageElement.appendChild(id);
 		pageElement.appendChild(title);
 		if(this.entities.size() > 0) {
 			Element entitiesElement = document.createElement("entities");
