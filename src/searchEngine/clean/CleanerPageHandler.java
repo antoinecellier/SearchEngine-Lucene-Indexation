@@ -2,6 +2,7 @@ package searchEngine.clean;
 
 import searchEngine.index.Page;
 
+import java.io.Console;
 import java.util.ArrayList;
 
 import org.xml.sax.helpers.DefaultHandler;
@@ -78,6 +79,10 @@ public class CleanerPageHandler extends DefaultHandler{
 		if(pathToString().equals("mediawiki/page/title/")) {
 			String content = new String(ch,start,length);
 			this.tempPage.setTitle(content);
+		}
+		if(pathToString().equals("mediawiki/page/id/")) {
+			String content = new String(ch,start,length);
+			this.tempPage.setId(content);
 		}
 		if(pathToString().equals("mediawiki/page/revision/text/")) {
 			String content = new String(ch,start,length);

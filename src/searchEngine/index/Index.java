@@ -44,10 +44,9 @@ public class Index {
 	 * @param pages
 	 * @throws IOException 
 	 */
-	@SuppressWarnings("deprecation")
 	public void createIndex(ArrayList<Page> pages) throws IOException{
 		Directory dir = FSDirectory.open(new File(this.pathFolderIndex));
-		Analyzer analyzer = new StandardAnalyzer(Version.LUCENE_4_10_2);
+		Analyzer analyzer = new StandardAnalyzer();
 		IndexWriterConfig iwc = new IndexWriterConfig(Version.LUCENE_4_10_2, analyzer);
 		iwc.setOpenMode(OpenMode.CREATE);
 		IndexWriter writer = new IndexWriter(dir, iwc);
@@ -66,6 +65,7 @@ public class Index {
 	 */
 	private Document createDocument(Page page){
 		Document doc = new Document();
+		doc.add(new StringField("id", page.getId(), Field.Store.YES));
 		doc.add(new TextField("title", page.getTitle(),  Field.Store.YES));
 		doc.add(new TextField("entities", page.joinEntities(),  Field.Store.YES));
 		return doc;

@@ -77,6 +77,10 @@ public class ParserHandler extends DefaultHandler{
 			String content = new String(ch,start,length);
 			this.tempPage.setTitle(content);
 		}
+		if(pathToString().equals("mediawiki/page/id/")) {
+			String content = new String(ch,start,length);
+			this.tempPage.setId(content);
+		}
 		if(pathToString().equals("mediawiki/page/entities/entity/")) {
 			String content = new String(ch,start,length);
 			this.tempPage.addEntity(content);

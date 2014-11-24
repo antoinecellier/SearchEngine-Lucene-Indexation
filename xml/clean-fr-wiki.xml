@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <mediawiki>
   <page>
+    <id>3</id>
     <title>Antoine Meillet</title>
     <entities>
       <entity>Moulins (Allier)</entity>
@@ -97,6 +98,7 @@
     </entities>
   </page>
   <page>
+    <id>7</id>
     <title>Algèbre linéaire</title>
     <entities>
       <entity>mathématiques</entity>
@@ -142,7 +144,6 @@
       <entity>géométrie différentielle</entity>
       <entity>théorie des nombres</entity>
       <entity>vecteur</entity>
-      <entity>doctorat</entity>
       <entity>Dimension d'un espace vectoriel</entity>
       <entity>Sciences économiques</entity>
       <entity>produit national brut</entity>
