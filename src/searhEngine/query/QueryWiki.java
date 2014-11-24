@@ -50,7 +50,7 @@ public class QueryWiki {
 		 ScoreDoc[] hits = results.scoreDocs;
 		
 		 int start = 0;
-		 int end = Math.min(this.numTotalDoc, 10);
+		 int end = Math.min(this.numTotalDoc, this.docBypage);
 		
 		 for (int i = start; i < end; i++) {
 			 documents.add(searcher.doc(hits[i].doc));
@@ -73,7 +73,7 @@ public class QueryWiki {
 		
 		 ScoreDoc[] hits = results.scoreDocs;
 		
-		 int end = Math.min(this.numTotalDoc, 10);
+		 int end = Math.min(this.numTotalDoc, this.docBypage);
 		
 		 for (int i = start; i < end; i++) {
 			 documents.add(searcher.doc(hits[i].doc));

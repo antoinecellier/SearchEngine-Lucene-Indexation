@@ -53,6 +53,7 @@ public class Main {
 		 ArrayList<Document> documents = query.search("title", line);
 		 for (Document document : documents) {
 			System.out.println(document.get("title"));
+			// http://fr.wikipedia.org/wiki?curid=3
 			System.out.println(document.get("id"));
 		}
 	}
