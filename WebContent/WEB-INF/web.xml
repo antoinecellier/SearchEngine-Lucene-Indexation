@@ -3,7 +3,7 @@
 
   <servlet>
     <servlet-name>Accueil</servlet-name>
-    <servlet-class>com.octest.servlets.Search</servlet-class>
+    <servlet-class>com.searchEngine.servlet.Search</servlet-class>
   </servlet>
   
   <servlet-mapping>
