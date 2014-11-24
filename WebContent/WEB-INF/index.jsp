@@ -11,6 +11,11 @@
 
 
     <div class="container">
+    	<c:forEach items="${results}" var="document">
+	 		<div class="row">
+			  <div class="col-md-12"><c:out value="${ document }" /></div>
+			</div>   	
+    	</c:forEach>
 
     </div>
 

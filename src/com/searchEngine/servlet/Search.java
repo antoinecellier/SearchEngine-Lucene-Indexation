@@ -1,16 +1,21 @@
 package com.searchEngine.servlet;
 
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.ArrayList;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/**
- * Servlet implementation class Search
- */
-@WebServlet("/Accueil")
+import org.apache.lucene.document.Document;
+import org.apache.lucene.queryparser.classic.ParseException;
+
+import searhEngine.query.QueryWiki;
+
+
 public class Search extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -35,13 +40,19 @@ public class Search extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		
-//		Integer nb1 = Integer.parseInt(request.getParameter("nb1"));
-//		Integer nb2 = Integer.parseInt(request.getParameter("nb2"));
-//		
-//		Integer result = nb1 + nb2;
-//		
-//		request.setAttribute("result", result);
-//		this.getServletContext().getRequestDispatcher("/WEB-INF/hello.jsp").forward(request, response);
+		String queryString = request.getParameter("query");
+		QueryWiki query = new QueryWiki("Documents/indexation/SearchEngine/WebContent/index",20);
+		request.setAttribute("result", queryString);
+
+		 try {
+			ArrayList<Document> documents = query.search("title", queryString);
+			request.setAttribute("results", documents);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		 
+		 this.getServletContext().getRequestDispatcher("/WEB-INF/index.jsp").forward(request, response);
 	}
 
 }
