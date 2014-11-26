@@ -11,9 +11,18 @@
 
 
     <div class="container">
+<<<<<<< HEAD
 		<div class="row">
 		  <div class="col-md-12"><c:out value="${title}" /></div>
 		</div>
+=======
+    	<c:forEach items="${results}" var="document">
+	 		<div class="row">
+			  <div class="col-md-12"><c:out value="${ document }" /></div>
+			</div>   	
+    	</c:forEach>
+
+>>>>>>> dev
     </div>
 
 

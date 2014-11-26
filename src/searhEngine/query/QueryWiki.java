@@ -27,7 +27,7 @@ public class QueryWiki {
 	
 	public QueryWiki(String folderIndex){
 		this.folderIndex = folderIndex;
-		this.docBypage = 0;
+		this.docBypage = 1;
 	}
 	
 	public QueryWiki(String folderIndex, int docByPage){
