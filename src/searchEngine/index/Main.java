@@ -38,7 +38,7 @@ public class Main {
 				System.out.println("Time: "+(end.getTime()-start.getTime())+"ms");
 				//search("doctorat AND Caucase");
 				//search("doctorat OR vecteur");
-				search("antoine");
+				search("vecteur OR doctorat");
 			} 
 			catch (ParserConfigurationException | SAXException | IOException | ParseException e) {
 				// TODO Auto-generated catch block
@@ -50,7 +50,7 @@ public class Main {
 	private static void search(String line) throws IOException, ParseException{
 		
 		 QueryWiki query = new QueryWiki("WebContent/index",20);
-		 ArrayList<Document> documents = query.search("title", line);
+		 ArrayList<Document> documents = query.search(new String[]{"title","entities"}, line);
 		 for (Document document : documents) {
 			System.out.println(document.get("title"));
 			// http://fr.wikipedia.org/wiki?curid=3

@@ -41,11 +41,11 @@ public class Search extends HttpServlet {
 		// TODO Auto-generated method stub
 		
 		String queryString = request.getParameter("query");
-		QueryWiki query = new QueryWiki("Documents/indexation/SearchEngine/WebContent/index",20);
+		QueryWiki query = new QueryWiki(this.getServletContext().getRealPath("/index/"),20);
 		request.setAttribute("result", queryString);
 
 		 try {
-			ArrayList<Document> documents = query.search("title", queryString);
+			ArrayList<Document> documents = query.search(new String[]{"title","entities"}, queryString);
 			request.setAttribute("results", documents);
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block

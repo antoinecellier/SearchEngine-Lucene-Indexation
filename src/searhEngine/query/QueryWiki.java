@@ -9,6 +9,7 @@ import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexReader;
+import org.apache.lucene.queryparser.classic.MultiFieldQueryParser;
 import org.apache.lucene.queryparser.classic.ParseException;
 import org.apache.lucene.queryparser.classic.QueryParser;
 import org.apache.lucene.search.IndexSearcher;
@@ -36,13 +37,15 @@ public class QueryWiki {
 	}
 	
 	
-	public ArrayList<Document> search(String field, String queryString) throws IOException, ParseException{
+	public ArrayList<Document> search(String[] fields, String queryString) throws IOException, ParseException{
 		
 		 ArrayList<Document> documents = new ArrayList<Document>();
 		 IndexReader reader = DirectoryReader.open(FSDirectory.open(new File(this.folderIndex)));
 		 IndexSearcher searcher = new IndexSearcher(reader);
 		 Analyzer analyzer = new StandardAnalyzer();
-		 QueryParser parser = new QueryParser(field, analyzer);
+		 
+		 MultiFieldQueryParser parser = new MultiFieldQueryParser(fields, analyzer);
+		 //QueryParser parser = new QueryParser(field, analyzer);
 		 Query query = parser.parse(queryString);
 		 TopDocs results = searcher.search(query,100);
 		 this.numTotalDoc = results.totalHits;
