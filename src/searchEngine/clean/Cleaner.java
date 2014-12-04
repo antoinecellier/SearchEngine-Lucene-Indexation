@@ -1,8 +1,12 @@
 package searchEngine.clean;
 
 
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
 import java.util.ArrayList;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -20,6 +24,7 @@ import javax.xml.transform.stream.StreamResult;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.xml.sax.SAXException;
+
 import searchEngine.index.Page;
 
 /**
@@ -59,10 +64,10 @@ public class Cleaner {
     * @throws IOException
     * @throws TransformerException
     */
-   public void clean() throws ParserConfigurationException, SAXException, IOException, TransformerException{
+   /*public void clean() throws ParserConfigurationException, SAXException, IOException, TransformerException{
 	   ArrayList<Page> pages = parsePage();
 	   pagesToXml(pages,this.pathOutput);
-   }
+   }*/
    
    /**
     * Extract all pages who are defined in the xml file
@@ -72,12 +77,14 @@ public class Cleaner {
     * @throws SAXException
     * @throws IOException
     */
-   private ArrayList<Page> parsePage() throws ParserConfigurationException, SAXException, IOException{
-		SAXParserFactory factory = SAXParserFactory.newInstance();
-		SAXParser saxParser = factory.newSAXParser();
-		CleanerPageHandler handler = new CleanerPageHandler();
+   public void clean() throws ParserConfigurationException, SAXException, IOException{
+	   Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(this.pathOutput), "utf-8"));
+	   SAXParserFactory factory = SAXParserFactory.newInstance();
+	   SAXParser saxParser = factory.newSAXParser();
+		
+		CleanerPageHandler handler = new CleanerPageHandler(writer);
 		saxParser.parse(this.pathInput, handler);
-		return handler.getListPages();
+		//return handler.getListPages();
    }
    
    /**
@@ -87,11 +94,10 @@ public class Cleaner {
     * @throws ParserConfigurationException
     * @throws TransformerException
     */
-   private void pagesToXml(ArrayList<Page> pages, String pathOutput) throws ParserConfigurationException, TransformerException{
+   /*private void pagesToXml(ArrayList<Page> pages, String pathOutput) throws ParserConfigurationException, TransformerException{
 		DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
 		Document doc = docBuilder.newDocument();
-		
 		Element rootElement = doc.createElement("mediawiki");
 		for (Page page : pages) {
 			Element pageElement = page.toXml(doc);
@@ -106,5 +112,5 @@ public class Cleaner {
 		DOMSource source = new DOMSource(doc);
 		StreamResult result = new StreamResult(new File(pathOutput));
 		transformer.transform(source, result);
-   }
+   }*/
 }

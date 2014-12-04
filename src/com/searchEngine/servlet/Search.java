@@ -33,7 +33,7 @@ public class Search extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		this.getServletContext().getRequestDispatcher("/WEB-INF/index.jsp").forward(request, response);
 	}
-
+	
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
@@ -41,7 +41,9 @@ public class Search extends HttpServlet {
 		// TODO Auto-generated method stub
 		
 		String queryString = request.getParameter("query");
-		QueryWiki query = new QueryWiki(this.getServletContext().getRealPath("/index/"),20);
+		System.out.println(queryString);
+	//	QueryWiki query = new QueryWiki(this.getServletContext().getRealPath("/index/"),20);
+		QueryWiki query = new QueryWiki("/Users/amaury/Documents/index",20);
 		request.setAttribute("result", queryString);
 
 		 try {
