@@ -17,6 +17,7 @@
 	 		<div class="row">
 			  	<div class="col-md-12">
 			  		<h1><c:out value="${ document.get('title') }" /></h1>
+			  		<a href="http://fr.wikipedia.org/wiki?curid=${ document.get('id') }" target="_blank">Wiki</a>
 			  		<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
 					  <div class="panel panel-default">
 					    <div class="panel-heading" role="tab" id="headingOne">
