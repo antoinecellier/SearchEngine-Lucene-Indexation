@@ -2,6 +2,7 @@ package com.searchEngine.servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.net.URLDecoder;
 import java.util.ArrayList;
 
 import javax.servlet.ServletException;
@@ -40,10 +41,15 @@ public class Search extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		
-		String queryString = request.getParameter("query");
+
+
+	//	QueryWiki query = new QueryWiki("/Users/amaury/Documents/index",20);
+
+		String queryString =  new String(request.getParameter("query").getBytes( "iso-8859-1"), "UTF-8");
+		
 		System.out.println(queryString);
-	//	QueryWiki query = new QueryWiki(this.getServletContext().getRealPath("/index/"),20);
-		QueryWiki query = new QueryWiki("/Users/amaury/Documents/index",20);
+		QueryWiki query = new QueryWiki(this.getServletContext().getRealPath("/index/"),20);
+
 		request.setAttribute("result", queryString);
 
 		 try {
