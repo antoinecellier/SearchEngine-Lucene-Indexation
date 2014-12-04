@@ -89,7 +89,7 @@ public class Page {
 	public String joinEntities(){
 		String res = "";
 		for (String entity : this.entities) {
-			res += entity+" ";
+			res += entity+" ; ";
 		}
 		return res;
 	}

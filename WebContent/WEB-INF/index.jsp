@@ -11,12 +11,18 @@
 
 
     <div class="container">
-		<div class="row">
-		  <div class="col-md-12"><c:out value="${title}" /></div>
-		</div>
     	<c:forEach items="${results}" var="document">
+	 		<hr>
 	 		<div class="row">
-			  <div class="col-md-12"><c:out value="${ document }" /></div>
+			  	<div class="col-md-12">
+			  		<h1><c:out value="${ document.get('title') }" /></h1>
+			  		<c:set var="entities" value="${fn:split(document.get('entities'), ';')}" />
+				   	<ul>
+					   	<c:forEach items="${entities}" var="entity">
+					   		<li><c:out value="${ entity }" /></li>
+					   	</c:forEach>
+				   	</ul>
+			  	</div>
 			</div>   	
     	</c:forEach>
     </div>

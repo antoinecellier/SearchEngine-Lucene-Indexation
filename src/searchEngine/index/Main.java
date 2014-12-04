@@ -18,12 +18,12 @@ public class Main {
 
 	public static void main(String[] args) {
 		Date start = new Date();
-		Cleaner cleaner = new Cleaner("xml/frwiki-test.xml", "xml/clean-fr-wiki.xml");
-		try {
-			cleaner.clean();
-		} catch(Exception e){
-		System.out.println(e.getMessage());
-		}
+//		Cleaner cleaner = new Cleaner("xml/frwiki-test.xml", "xml/clean-fr-wiki.xml");
+//		try {
+//			cleaner.clean();
+//		} catch(Exception e){
+//		System.out.println(e.getMessage());
+//		}
 		
 		
 		ParserCleanXml parserCleanXml = new ParserCleanXml("xml/clean-fr-wiki.xml");
@@ -32,7 +32,7 @@ public class Main {
 	
 				ArrayList<Page>  pages = parserCleanXml.getPages();
 				
-				Index index = new Index("index");
+				Index index = new Index("WebContent/index");
 				index.createIndex(pages);
 				Date end = new Date();
 				System.out.println("Time: "+(end.getTime()-start.getTime())+"ms");
@@ -49,7 +49,7 @@ public class Main {
 	// Pour tester l'index
 	private static void search(String line) throws IOException, ParseException{
 		
-		 QueryWiki query = new QueryWiki("index",20);
+		 QueryWiki query = new QueryWiki("WebContent/index",20);
 		 ArrayList<Document> documents = query.search("title", line);
 		 for (Document document : documents) {
 			System.out.println(document.get("title"));
