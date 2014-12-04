@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import org.apache.lucene.analysis.Analyzer;
+import org.apache.lucene.analysis.fr.FrenchAnalyzer;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
@@ -46,7 +47,7 @@ public class Index {
 	 */
 	public void createIndex(ArrayList<Page> pages) throws IOException{
 		Directory dir = FSDirectory.open(new File(this.pathFolderIndex));
-		Analyzer analyzer = new StandardAnalyzer();
+		Analyzer analyzer = new FrenchAnalyzer();
 		IndexWriterConfig iwc = new IndexWriterConfig(Version.LUCENE_4_10_2, analyzer);
 		iwc.setOpenMode(OpenMode.CREATE);
 		IndexWriter writer = new IndexWriter(dir, iwc);
@@ -66,7 +67,9 @@ public class Index {
 	private Document createDocument(Page page){
 		Document doc = new Document();
 		doc.add(new StringField("id", page.getId(), Field.Store.YES));
-		doc.add(new TextField("title", page.getTitle(),  Field.Store.YES));
+		Field title = new TextField("title", page.getTitle(),Field.Store.YES);
+		title.setBoost(2);
+		doc.add(title);
 		doc.add(new TextField("entities", page.joinEntities(),  Field.Store.YES));
 		return doc;
 	}

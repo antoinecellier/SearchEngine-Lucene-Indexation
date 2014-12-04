@@ -16,8 +16,8 @@
 	 		<hr>
 	 		<div class="row">
 			  	<div class="col-md-12">
-			  		<h1><c:out value="${ document.get('title') }" /></h1>
-			  		<a href="http://fr.wikipedia.org/wiki?curid=${ document.get('id') }" target="_blank">Wiki</a>
+			  		<h1><c:out value="${ document.getTitle() }" /></h1>
+			  		<a href="http://fr.wikipedia.org/wiki?curid=${ document.getId() }" target="_blank">Wiki</a>
 			  		<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
 					  <div class="panel panel-default">
 					    <div class="panel-heading" role="tab" id="headingOne">
@@ -29,10 +29,10 @@
 					    </div>
 					    <div id="${ count }-result" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
 					      <div class="panel-body">
-					      			  	<c:set var="entities" value="${fn:split(document.get('entities'), ';')}" />
+					      			  	
 									   	<ul>
-										   	<c:forEach items="${entities}" var="entity">
-										   		<li><c:out value="${ entity }" /></li>
+										   	<c:forEach items="${document.getEntities()}" var="entity">
+										   		<li><c:out value="${ entity.getKey() }" />(<c:out value="${ entity.getValue() }" />)</li>
 										   	</c:forEach>
 									   	</ul>
 					      </div>
