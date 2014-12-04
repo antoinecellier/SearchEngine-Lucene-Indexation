@@ -9,41 +9,19 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.apache.lucene.document.Document;
 import org.xml.sax.SAXException;
-
 import org.apache.lucene.queryparser.classic.ParseException;
+
+import com.sun.corba.se.impl.orb.ParserTable.TestAcceptor1;
+
 import searchEngine.clean.Cleaner;
 import searhEngine.query.QueryWiki;
 
 public class Main {
 
 	public static void main(String[] args) {
-		Date start = new Date();
-//		Cleaner cleaner = new Cleaner("xml/frwiki-test.xml", "xml/clean-fr-wiki.xml");
-//		try {
-//			cleaner.clean();
-//		} catch(Exception e){
-//		System.out.println(e.getMessage());
-//		}
-		
-		
-		ParserCleanXml parserCleanXml = new ParserCleanXml("xml/clean-fr-wiki.xml");
-			try {
-				parserCleanXml.parse();
+		//cleanXml();
+		index();
 	
-				ArrayList<Page>  pages = parserCleanXml.getPages();
-				
-				Index index = new Index("WebContent/index");
-				index.createIndex(pages);
-				Date end = new Date();
-				System.out.println("Time: "+(end.getTime()-start.getTime())+"ms");
-				//search("doctorat AND Caucase");
-				//search("doctorat OR vecteur");
-				search("vecteur OR doctorat");
-			} 
-			catch (ParserConfigurationException | SAXException | IOException | ParseException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
 	}
 	
 	// Pour tester l'index
@@ -56,6 +34,42 @@ public class Main {
 			// http://fr.wikipedia.org/wiki?curid=3
 			System.out.println(document.get("id"));
 		}
+	}
+	
+	private static void cleanXml(){
+		Date start = new Date();
+		Cleaner cleaner = new Cleaner("/Users/amaury/Documents/frwiki-long.xml", "/Users/amaury/Documents/frwiki-long-clean2.xml");
+		try {
+			cleaner.clean();
+		} catch(Exception e){
+		System.out.println(e.getMessage());
+		}
+		Date end = new Date();
+		System.out.println("Time: "+(end.getTime()-start.getTime())+"ms");
+	}
+	
+	private static void index(){
+		
+		Date start = new Date();
+		ParserCleanXml parserCleanXml = new ParserCleanXml("/Users/amaury/Documents/frwiki-long-clean2.xml");
+			try {
+				parserCleanXml.parse();
+	
+				ArrayList<Page>  pages = parserCleanXml.getPages();
+				
+				Index index = new Index("/Users/amaury/Documents/index");
+				index.createIndex(pages);
+				Date end = new Date();
+				System.out.println("Time: "+(end.getTime()-start.getTime())+"ms");
+				
+				//search("doctorat AND Caucase");
+				//search("doctorat OR vecteur");
+				//search("vecteur OR doctorat");
+			} 
+			catch (ParserConfigurationException | SAXException | IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 	}
 
 }

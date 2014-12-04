@@ -172,8 +172,22 @@ public class Page {
 	 * @param Document document 
 	 * @return Element
 	 */
-	public Element toXml(Document document){
-		Element pageElement = document.createElement("page");
+	public String toXml(){
+		
+		String resString = "<page>\n";
+		resString += "\t<title>"+this.title+"</title>\n";
+		resString += "\t<id>"+this.id+"</id>\n";
+		resString += "\t<entities>\n";
+		//System.out.println(this.entities.size());
+		if(this.entities.size() > 0) {
+			for (String entity : entities) {
+				resString += "\t\t<entity>"+entity+"</entity>\n";
+			}
+		}
+		resString += "\t</entities>\n";
+		resString += "</page>\n";
+		return resString;
+		/* Element pageElement = document.createElement("page");
 		Element title = document.createElement("title");
 		title.appendChild(document.createTextNode(this.title));
 		
@@ -190,6 +204,6 @@ public class Page {
 			}
 			pageElement.appendChild(entitiesElement);
 		}
-		return pageElement;
+		return pageElement; */
 	}
 }
