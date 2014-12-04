@@ -11,6 +11,7 @@
 
 
     <div class="container">
+    	<c:set var="count" value="0" scope="page" />
     	<c:forEach items="${results}" var="document">
 	 		<hr>
 	 		<div class="row">
@@ -20,12 +21,12 @@
 					  <div class="panel panel-default">
 					    <div class="panel-heading" role="tab" id="headingOne">
 					      <h4 class="panel-title">
-					        <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+					        <a data-toggle="collapse" data-parent="#accordion" href="#<c:out value='${ count }' />-result" aria-expanded="false" aria-controls="collapseOne">
 					          Entities
 					        </a>
 					      </h4>
 					    </div>
-					    <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+					    <div id="${ count }-result" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
 					      <div class="panel-body">
 					      			  	<c:set var="entities" value="${fn:split(document.get('entities'), ';')}" />
 									   	<ul>
@@ -38,7 +39,8 @@
 					  </div>
 					</div>
 			  	</div>
-			</div>   	
+			</div>
+			<c:set var="count" value="${count + 1}" scope="page"/>
     	</c:forEach>
     </div>
 
