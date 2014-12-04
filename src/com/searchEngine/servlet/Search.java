@@ -42,10 +42,16 @@ public class Search extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		
-		String queryString = request.getParameter("query");
-		System.out.println(URLDecoder.decode(request.getParameter("query"), "UTF-8"));
+		String queryString =  new String(request.getParameter("query").getBytes( "iso-8859-1"), "UTF-8");
+		
 	//	QueryWiki query = new QueryWiki(this.getServletContext().getRealPath("/index/"),20);
 		QueryWiki query = new QueryWiki(this.getServletContext().getRealPath("/index/"),20);
+
+
+
+	//	QueryWiki query = new QueryWiki("/Users/amaury/Documents/index",20);
+
+		
 		request.setAttribute("result", queryString);
 
 		 try {
