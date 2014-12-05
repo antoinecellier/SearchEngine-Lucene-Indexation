@@ -43,8 +43,6 @@ public class Search extends HttpServlet {
 		// TODO Auto-generated method stub
 		
 		String queryString =  new String(request.getParameter("query").getBytes( "iso-8859-1"), "UTF-8");
-		
-	//	QueryWiki query = new QueryWiki(this.getServletContext().getRealPath("/index/"),20);
 		QueryWiki query = new QueryWiki(this.getServletContext().getRealPath("/index/"),20);
 
 
@@ -63,9 +61,6 @@ public class Search extends HttpServlet {
 			}
 			 System.out.println(resDocuments.size());
 			 request.setAttribute("results", resDocuments);
-			 //System.out.println(resDocuments.get(0).getEntities());
-				
-			//ArrayList<Document> documents = query.search(new String[]{"title","entities"}, queryString);
 			
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
