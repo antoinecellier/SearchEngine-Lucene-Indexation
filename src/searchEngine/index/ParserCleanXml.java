@@ -1,12 +1,12 @@
 package searchEngine.index;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
+import org.apache.lucene.index.IndexWriter;
 import org.xml.sax.SAXException;
 
 /**
@@ -17,10 +17,6 @@ import org.xml.sax.SAXException;
  */
 public class ParserCleanXml {
 	
-	/**
-	 * List of pages who are extracted
-	 */
-	private ArrayList<Page> listPages;
 	
 	/**
 	 * Path of clean xml file
@@ -28,12 +24,18 @@ public class ParserCleanXml {
 	private String pathXml;
 	
 	/**
+	 * Instance of indexWriter
+	 */
+	private IndexWriter indexWriter;
+	
+	/**
 	 * Builder parser
 	 * @param pathXml
 	 */
-	public ParserCleanXml(String pathXml) {
+	public ParserCleanXml(String pathXml, IndexWriter indexWriter) {
 		this.pathXml = pathXml;
-		this.listPages = new ArrayList<Page>();
+		this.indexWriter = indexWriter;
+		//this.listPages = new ArrayList<Page>();
 	}
 	
 	/**
@@ -45,16 +47,9 @@ public class ParserCleanXml {
 	public void parse() throws ParserConfigurationException, SAXException, IOException{
 		SAXParserFactory factory = SAXParserFactory.newInstance();
 		SAXParser saxParser = factory.newSAXParser();
-		ParserHandler handler = new ParserHandler();
+		ParserHandler handler = new ParserHandler(this.indexWriter);
 		saxParser.parse(this.pathXml, handler);
-		this.listPages = handler.getListPages();
 	}
 	
-	/**
-	 * Get list of pages
-	 * @return ArrayList<Page>
-	 */
-	public ArrayList<Page> getPages(){
-		return this.listPages;
-	}
+	
 }

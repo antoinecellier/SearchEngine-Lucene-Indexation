@@ -1,7 +1,13 @@
 package searchEngine.index;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
+import org.apache.lucene.document.Document;
+import org.apache.lucene.document.Field;
+import org.apache.lucene.document.StringField;
+import org.apache.lucene.document.TextField;
+import org.apache.lucene.index.IndexWriter;
 import org.xml.sax.Attributes;
 import org.xml.sax.helpers.DefaultHandler;
 
@@ -12,11 +18,7 @@ import org.xml.sax.helpers.DefaultHandler;
  */
 public class ParserHandler extends DefaultHandler{
 
-	/**
-	 * List of Page
-	 */
-	private ArrayList<Page> listPages;
-	
+	private IndexWriter indexWriter;
 	/*
 	 * Path of the current tags
 	 */
@@ -31,18 +33,11 @@ public class ParserHandler extends DefaultHandler{
 	/**
 	 * Builder - initialize list of page and path of tag
 	 */
-	public ParserHandler(){
+	public ParserHandler(IndexWriter indexWriter){
 		this.path = new ArrayList<String>();
-		this.listPages = new ArrayList<Page>();
+		this.indexWriter = indexWriter;
 	}
 	
-	/**
-	 * Get listPages
-	 * @return ArrayList<Page>
-	 */
-	public ArrayList<Page> getListPages(){
-		return this.listPages;
-	}
 	
 	/**
 	 * Join all tags of ArrayList with character "/"
@@ -93,10 +88,31 @@ public class ParserHandler extends DefaultHandler{
 	 */
 	public void endElement(String uri, String localName, String qName){
 		if(pathToString().equals("mediawiki/page/")) {
-			this.listPages.add((Page) tempPage.clone());
+			Document document= createDocument(this.tempPage);
+			try {
+				this.indexWriter.addDocument(document);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 			this.tempPage = null;
 		}
 		this.path.remove(this.path.size() - 1);
+	}
+	
+	/**
+	 * Create a document from a page
+	 * Document is of Class of Lucene who can be add to an index
+	 * @param page
+	 * @return Document
+	 */
+	private Document createDocument(Page page){
+		Document doc = new Document();
+		doc.add(new StringField("id", page.getId(), Field.Store.YES));
+		Field title = new TextField("title", page.getTitle(),Field.Store.YES);
+		title.setBoost(2);
+		doc.add(title);
+		doc.add(new TextField("entities", page.joinEntities(),  Field.Store.YES));
+		return doc;
 	}
 	
 	

@@ -2,12 +2,8 @@ package searchEngine.clean;
 
 import searchEngine.index.Page;
 
-import java.io.BufferedWriter;
-import java.io.Console;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
 import java.io.Writer;
 import java.util.ArrayList;
@@ -23,10 +19,6 @@ import org.xml.sax.Attributes;
  */
 public class CleanerPageHandler extends DefaultHandler{
 	
-	/**
-	 * List of Page
-	 */
-	//private ArrayList<Page> listPages;
 	
 	/*
 	 * Path of the current tags
@@ -41,25 +33,14 @@ public class CleanerPageHandler extends DefaultHandler{
 	private Writer writer;
 	
 	/**
-	 * Builder - initialize list of page and path of tag
+	 * Builder - initialize path of tag
 	 * @throws FileNotFoundException 
 	 * @throws UnsupportedEncodingException 
 	 */
 	public CleanerPageHandler(Writer writer) {
 		this.path = new ArrayList<String>();
-		//this.listPages = new ArrayList<Page>();
 		this.writer = writer;
 	}
-	
-	/**
-	 * Get listPages
-	 * @return ArrayList<Page>
-	 */
-	/*public ArrayList<Page> getListPages(){
-		return this.listPages;
-	}*/
-	
-	
 	
 	/**
 	 * Join all tags of ArrayList with character "/"
@@ -76,10 +57,10 @@ public class CleanerPageHandler extends DefaultHandler{
 		try {
 			this.writer.write("<mediawiki>\n");
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
+	
 	/**
 	 * Start tag
 	 * if path is mediawiki/page/ create new instance of pages
@@ -117,15 +98,15 @@ public class CleanerPageHandler extends DefaultHandler{
 	
 	/**
 	 * End of tag
-	 * if this is the end of tag page, add the current page to the list
+	 * if this is the end of tag page, extract entities of page and write page into clean file
 	 */
 	public void endElement(String uri, String localName, String qName){
 		if(pathToString().equals("mediawiki/page/")) {
 			tempPage.extractEntities();
-			//this.listPages.add((Page) tempPage.clone());
 			try {
 				this.writer.write(tempPage.toXml());
 			} catch (IOException e) {
+				System.out.println("err");
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
@@ -136,12 +117,9 @@ public class CleanerPageHandler extends DefaultHandler{
 	
 	/**
 	 * End of xml file
-	 * Extract all entities of content
+	 * Close write buffer
 	 */
 	public void endDocument(){
-		/*for (Page page : this.listPages) {
-			page.extractEntities();
-		}*/
 		try {
 			this.writer.write("</mediawiki>");
 			this.writer.close();

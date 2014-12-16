@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
 /**
  * Represent page of Wikipedia 
  * with just title, content and list of entities
@@ -78,7 +76,8 @@ public class Page {
 		
 		while(m.find()) {
 			String[] entitesGroup = m.group(1).split("\\|");
-			entities.add(entitesGroup[0]);	    
+			if(entitesGroup.length > 0)
+				entities.add(entitesGroup[0]);	    
 		}
 	}
 	
@@ -178,7 +177,6 @@ public class Page {
 		resString += "\t<title>"+this.title+"</title>\n";
 		resString += "\t<id>"+this.id+"</id>\n";
 		resString += "\t<entities>\n";
-		//System.out.println(this.entities.size());
 		if(this.entities.size() > 0) {
 			for (String entity : entities) {
 				resString += "\t\t<entity>"+entity+"</entity>\n";
@@ -187,23 +185,5 @@ public class Page {
 		resString += "\t</entities>\n";
 		resString += "</page>\n";
 		return resString;
-		/* Element pageElement = document.createElement("page");
-		Element title = document.createElement("title");
-		title.appendChild(document.createTextNode(this.title));
-		
-		Element id = document.createElement("id");
-		id.appendChild(document.createTextNode(this.id));
-		pageElement.appendChild(id);
-		pageElement.appendChild(title);
-		if(this.entities.size() > 0) {
-			Element entitiesElement = document.createElement("entities");
-			for (String entity : entities) {
-				Element entityElement = document.createElement("entity");
-				entityElement.appendChild(document.createTextNode(entity));
-				entitiesElement.appendChild(entityElement);
-			}
-			pageElement.appendChild(entitiesElement);
-		}
-		return pageElement; */
 	}
 }

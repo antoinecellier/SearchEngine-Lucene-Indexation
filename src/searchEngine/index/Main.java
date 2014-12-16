@@ -1,21 +1,8 @@
 package searchEngine.index;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Set;
-import java.util.TreeMap;
 
 import javax.xml.parsers.ParserConfigurationException;
 
@@ -30,19 +17,26 @@ import searhEngine.query.QueryWiki;
 public class Main {
 
 	public static void main(String[] args) {
-		//cleanXml();
-		//index();
-		try {
+		//cleanXml("/Users/amaury/Documents/frwiki-long.xml","/Users/amaury/Documents/frwiki-long-clean2.xml");
+		//cleanXml("xml/frwiki-test.xml","/Users/amaury/Documents/frwiki-short-clean.xml");
+		//index("/Users/amaury/Documents/frwiki-entier-clean2.xml","/Users/amaury/Documents/index");
+		index("/Users/amaury/Documents/frwiki-long-clean2.xml","/Users/amaury/Documents/index");
+		/*try {
 			search("antoine");
 		} catch (IOException | ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+		}*/
 	
 	}
 	
-	// Pour tester l'index
-	@SuppressWarnings("unchecked")
+	
+	/**
+	 * Test search into index
+	 * @param line query
+	 * @throws IOException
+	 * @throws ParseException
+	 */
 	private static void search(String line) throws IOException, ParseException{
 		 ArrayList<QueryDocument> resDocuments = new ArrayList<QueryDocument>();
 		 QueryWiki query = new QueryWiki("WebContent/index",20);
@@ -53,49 +47,46 @@ public class Main {
 		}
 		 System.out.println(resDocuments.get(0).getEntities());
 			
-	}
-	 public static void printMap(Map<String, Integer> map){
-		 
-			for (Map.Entry<String, Integer> entry : map.entrySet()) {
-				System.out.println("Key : " + entry.getKey() + " Value : "
-					+ entry.getValue());
-			}
-		 
-		  }
-	private static void cleanXml(){
+	}	
+ 
+	/**
+	 * Run clean XML
+	 * @param pathXml
+	 * @param pathCleanXMl
+	 */
+	private static void cleanXml(String pathXml, String pathCleanXMl){
 		Date start = new Date();
-		Cleaner cleaner = new Cleaner("/Users/amaury/Documents/frwiki-long.xml", "/Users/amaury/Documents/frwiki-long-clean2.xml");
+		Cleaner cleaner = new Cleaner(pathXml, pathCleanXMl);
 		try {
 			cleaner.clean();
 		} catch(Exception e){
-		System.out.println(e.getMessage());
+			System.out.println("erreur");
+			System.out.println(e.getCause());
+			System.out.println(e.getStackTrace());
+			System.out.println(e.getClass().getSimpleName());
+			System.out.println(e.getStackTrace()[2].getLineNumber());
+			
 		}
 		Date end = new Date();
 		System.out.println("Time: "+(end.getTime()-start.getTime())+"ms");
 	}
 	
-	private static void index(){
+	/**
+	 * Run create index
+	 * @param pathCleanXml
+	 * @param pathOutput
+	 */
+	private static void index(String pathCleanXml, String pathOutput){
 		
 		Date start = new Date();
-		ParserCleanXml parserCleanXml = new ParserCleanXml("/Users/amaury/Documents/frwiki-long-clean2.xml");
-			try {
-				parserCleanXml.parse();
-	
-				ArrayList<Page>  pages = parserCleanXml.getPages();
-				
-				Index index = new Index("/Users/amaury/Documents/index");
-				index.createIndex(pages);
-				Date end = new Date();
-				System.out.println("Time: "+(end.getTime()-start.getTime())+"ms");
-				
-				//search("doctorat AND Caucase");
-				//search("doctorat OR vecteur");
-				//search("vecteur OR doctorat");
-			} 
-			catch (ParserConfigurationException | SAXException | IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+		Index index = new Index(pathOutput);
+		try {
+			index.createIndex(pathCleanXml);
+		} catch (IOException | ParserConfigurationException | SAXException e) {
+			e.printStackTrace();
+		}
+		Date end = new Date();
+		System.out.println("Time: "+(end.getTime()-start.getTime())+"ms");
 	}
 
 }
